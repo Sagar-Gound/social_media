@@ -1,47 +1,97 @@
-const router = require("express").Router();
-const User = require("../models/User");
-const bcrypt = require("bcrypt");
+import { Router } from "express";
+import { User } from "../models/User.js";
+import bcrypt from "bcryptjs";
 
-// REGISTER
-router.post("/register", async (req, res) => {
+export const authRoute = Router();
+
+// Register a new user
+authRoute.post("/register", async (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Custom user validation logic
+  if (!username || username.trim().length < 3) {
+    return res
+      .status(400)
+      .json({ error: "Username must be at least 3 characters long" });
+  }
+  if (
+    !email ||
+    !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+  ) {
+    return res
+      .status(400)
+      .json({ error: "Please provide a valid email address" });
+  }
+  if (!password || password.length < 6) {
+    return res
+      .status(400)
+      .json({ error: "Password must be at least 6 characters long" });
+  }
+
+  const hashedPassword = bcrypt.hashSync(password, 10);
+
   try {
-    // Generate new ecrypted password for security
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-    // Create new user
     const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
+      username,
+      email,
       password: hashedPassword,
     });
 
-    // Save user and respond
     const user = await newUser.save();
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json(err);
+    const { password, ...filteredUserInfo } = user._doc;
+
+    return res.status(201).json({
+      message: "User registered successfully",
+      filteredUserInfo,
+    });
+  } catch (error) {
+    return res.status(409).json({
+      message: "User already exists",
+    });
   }
 });
 
-// LOGIN
-router.post("/login", async (req, res) => {
+// Login a user
+authRoute.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  // custom user validation logic
+  if (
+    !email ||
+    !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+  ) {
+    return res
+      .status(400)
+      .json({ error: "Please provide a valid email address" });
+  }
+  if (!password || password.length < 6) {
+    return res
+      .status(400)
+      .json({ error: "Password must be at least 6 characters long" });
+  }
+
   try {
-    // check if user exist or not
-    const user = await User.findOne({ email: req.body.email });
-    !user && res.status(404).json("User not found");
+    const user = await User.findOne({ email });
 
-    // check if user password is correct
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-    !validPassword && res.status(400).json("Wrong password");
-    console.log("first");
-    return res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json(err);
+    // if user doesn't exist
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    // if user exists
+    if (bcrypt.compareSync(password, user.password)) {
+      const { password, ...filteredUserInfo } = user._doc;
+
+      return res.status(200).json({
+        message: "User logged in successfully",
+        filteredUserInfo,
+      });
+    }
+  } catch (error) {
+    return res.status(401).json({
+      message: "Invalid email or password",
+    });
   }
 });
-
-module.exports = router;
