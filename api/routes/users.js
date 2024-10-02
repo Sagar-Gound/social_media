@@ -1,9 +1,11 @@
 import { Router } from "express";
 
-export const usersRoute = Router();
+export const userRoute = Router();
 
-usersRoute.get("/", (req,res)=>{
+// get a user
+userRoute.get("/", (req, res) => {
+
   res.send({
-    "message":"Hello World"
-  })
-})
+    message: "Hello World",
+  });
+});

@@ -1,4 +1,4 @@
-import { usersRoute } from "./users.js";
+import { userRoute } from "./users.js";
 import { authRoute } from "./auth.js";
 
-export { usersRoute, authRoute };
+export { userRoute, authRoute };

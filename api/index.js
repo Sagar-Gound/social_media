@@ -5,7 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 // import Routes
-import { authRoute, usersRoute } from "./routes/index.js";
+import { authRoute, userRoute } from "./routes/index.js";
 
 const PORT = process.env.PORT || 4000;
 
@@ -24,7 +24,7 @@ app.use(helmet());
 app.use(morgan("common"));
 
 // register Routes
-app.use("/api/users", usersRoute);
+app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
