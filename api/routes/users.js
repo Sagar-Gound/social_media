@@ -1,11 +1,20 @@
 import { Router } from "express";
+import { checkObjectId } from "../helper.js";
+import { getUser, updateUser, deleteUser, followUser, unfollowUser } from "../controller/user.controller.js";
 
 export const userRoute = Router();
 
-// get a user
-userRoute.get("/", (req, res) => {
+// Get a user by ID
+userRoute.get("/:id", checkObjectId, getUser);
 
-  res.send({
-    message: "Hello World",
-  });
-});
+// Update u user by ID
+userRoute.put("/:id", checkObjectId, updateUser);
+
+// Delete a user by ID
+userRoute.delete("/:id", checkObjectId, deleteUser);
+
+// follow a user
+userRoute.put("/:id/follow", checkObjectId, followUser);
+
+// unfollow a user
+userRoute.put("/:id/unfollow", checkObjectId, );
