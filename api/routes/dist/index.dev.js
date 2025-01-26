@@ -15,7 +15,15 @@ Object.defineProperty(exports, "authRoute", {
     return _auth.authRoute;
   }
 });
+Object.defineProperty(exports, "postRoute", {
+  enumerable: true,
+  get: function get() {
+    return _posts.postRoute;
+  }
+});
 
 var _users = require("./users.js");
 
 var _auth = require("./auth.js");
+
+var _posts = require("./posts.js");

@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./register.css";
+// import axios from "../../config/axiosConfig.js";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,23 +11,29 @@ export default function Register() {
   const passwordAgain = useRef();
   const navigate = useNavigate();
 
+  const [err, setErr] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+
   const handleClick = async (e) => {
     e.preventDefault();
     if (password.current.value !== passwordAgain.current.value) {
-      password.current.setCustomValidity("Passwords do not match!");
-    } else {
-      const user = {
-        username: username.current.value,
-        email: email.current.value,
-        password: password.current.value,
-      };
+      setErr(true);
+      setErrMessage("Passwords do not match!");
+      return;
+    }
+    const user = {
+      username: username.current.value,
+      email: email.current.value,
+      password: password.current.value,
+    };
 
-      try {
-        await axios.post("/auth/register", user);
-        navigate("/login");
-      } catch (err) {
-        console.log(err);
-      }
+    try {
+      await axios.post("/auth/register", user);
+      navigate("/login");
+    } catch (err) {
+      console.error("Registration failed:", err);
+      setErr(true);
+      setErrMessage(err?.response?.data || "An unexpected error occurred");
     }
   };
 
@@ -70,6 +77,7 @@ export default function Register() {
               className="loginInput"
               placeholder="Password Again"
             />
+            {err && <span>{errMessage}</span>}
             <button className="loginButton" type="submit">
               Sign Up
             </button>
@@ -78,7 +86,7 @@ export default function Register() {
                 textDecoration: "none",
                 display: "inlineBlock",
                 width: "100%",
-                textAlign:"center"
+                textAlign: "center",
               }}
               to="/login"
               className="loginRegisterButton"

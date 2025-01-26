@@ -9,26 +9,26 @@ import { AuthContext } from "./context/AuthContext";
 import Messenger from "./pages/messenger/Messenger";
 
 function App() {
-  const { currentUser: user } = useContext(AuthContext);
+  const { user: currentUser } = useContext(AuthContext);
+  // console.log("currentUser ", currentUser);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={user ? <Home /> : <Login />} />
-        {/* <Route path="/login" element={currentUser?<Redirect from="/login" to="/" />:<Login />} /> */}
+        <Route exact path="/" element={currentUser ? <Home /> : <Login />} />
         <Route
           path="/login"
-          element={user ? <Navigate replace to="/" /> : <Login />}
+          element={currentUser ? <Navigate replace to="/" /> : <Login />}
         />
-        {/* <Route path="/register" element={<Register />} /> */}
         <Route
           path="/register"
-          element={user ? <Navigate replace to="/" /> : <Register />}
+          element={currentUser ? <Navigate replace to="/" /> : <Register />}
         />
         <Route
           path="/messenger"
-          element={!user ? <Navigate replace to="/" /> : <Messenger />}
+          element={!currentUser ? <Navigate replace to="/" /> : <Messenger />}
         />
-        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/profile/:id" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

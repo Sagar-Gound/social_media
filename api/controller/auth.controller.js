@@ -50,6 +50,8 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
+  console.log(req.body);
+
   // custom user validation logic
   if (
     !email ||

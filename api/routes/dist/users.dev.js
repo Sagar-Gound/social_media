@@ -22,4 +22,4 @@ userRoute["delete"]("/:id", _helper.checkObjectId, _userController.deleteUser); 
 
 userRoute.put("/:id/follow", _helper.checkObjectId, _userController.followUser); // unfollow a user
 
-userRoute.put("/:id/unfollow", _helper.checkObjectId);
+userRoute.put("/:id/unfollow", _helper.checkObjectId, _userController.unfollowUser);

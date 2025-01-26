@@ -4,11 +4,13 @@ import { loginCall } from "../../apiCalls";
 import { useContext } from "react";
 import { AuthContext } from "./../../context/AuthContext";
 import { CircularProgress } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const email = useRef();
   const password = useRef();
+  const navigate = useNavigate();
+
   const { user, isFetching, dispatch } = useContext(AuthContext);
 
   const handleClick = (e) => {
@@ -18,9 +20,10 @@ export default function Login() {
       { email: email.current.value, password: password.current.value },
       dispatch
     );
+    // navigate(`/profile/${user._id}`);
   };
   console.log(user);
-  console.log(isFetching);
+  // console.log(isFetching);
 
   return (
     <div className="login">

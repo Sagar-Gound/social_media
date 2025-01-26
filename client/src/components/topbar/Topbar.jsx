@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext";
 
 export default function Topbar() {
-  const { currentUser } = useContext(AuthContext);
+  const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+  // console.log(currentUser)
 
   return (
     <div className="topbarContainer">
@@ -43,7 +45,7 @@ export default function Topbar() {
             <span className="topbarIconBadge">1</span>
           </div>
         </div>
-        <Link to={`/profile/${currentUser.username}`}>
+        <Link to={`/profile/${currentUser._id}`}>
           <img
             src={
               currentUser.profilePicture

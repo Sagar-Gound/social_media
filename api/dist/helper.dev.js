@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 // Middleware to check if the ID is a valid ObjectId
 var checkObjectId = function checkObjectId(req, res, next) {
   if (!_mongoose["default"].Types.ObjectId.isValid(req.params.id)) {
-    return res.status(400).json("Invalid user ID");
+    return res.status(400).json("Invalid ID");
   }
 
   next();

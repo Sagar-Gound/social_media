@@ -1,6 +1,12 @@
 import { Router } from "express";
 import { checkObjectId } from "../helper.js";
-import { getUser, updateUser, deleteUser, followUser, unfollowUser } from "../controller/user.controller.js";
+import {
+  getUser,
+  updateUser,
+  deleteUser,
+  followUser,
+  unfollowUser,
+} from "../controller/user.controller.js";
 
 export const userRoute = Router();
 
@@ -17,4 +23,4 @@ userRoute.delete("/:id", checkObjectId, deleteUser);
 userRoute.put("/:id/follow", checkObjectId, followUser);
 
 // unfollow a user
-userRoute.put("/:id/unfollow", checkObjectId, );
+userRoute.put("/:id/unfollow", checkObjectId, unfollowUser);

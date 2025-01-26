@@ -12,10 +12,11 @@ import { AuthContext } from "./../../context/AuthContext";
 import axios from "axios";
 
 export default function Share() {
-  const { currentUser } = useContext(AuthContext);
+  const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
   const [file, setFile] = useState(null);
+  
   const submitHandler = async (e) => {
     e.preventDefault();
     const newPost = {
@@ -41,6 +42,8 @@ export default function Share() {
     } catch (error) {}
   };
 
+  // console.log(currentUser)
+  
   return (
     <div className="share">
       <div className="shareWrapper">

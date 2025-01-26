@@ -11,6 +11,7 @@ export const getUser = async (req, res) => {
 
   try {
     const user = await User.findById(id);
+    
     if (user) {
       const { password, updatedAt, ...other } = user._doc;
       return res.status(200).json(other);
@@ -42,7 +43,10 @@ export const updateUser = async (req, res) => {
       );
 
       const { password, updatedAt, ...other } = user._doc;
-      return res.status(200).json(other);
+      return res.status(200).json({
+        message: "User updated successfully!",
+        other,
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).json({

@@ -96,7 +96,10 @@ var updateUser = function updateUser(req, res) {
         case 4:
           user = _context2.sent;
           _user$_doc2 = user._doc, password = _user$_doc2.password, updatedAt = _user$_doc2.updatedAt, other = _objectWithoutProperties(_user$_doc2, ["password", "updatedAt"]);
-          return _context2.abrupt("return", res.status(200).json(other));
+          return _context2.abrupt("return", res.status(200).json({
+            message: "User updated successfully!",
+            other: other
+          }));
 
         case 9:
           _context2.prev = 9;

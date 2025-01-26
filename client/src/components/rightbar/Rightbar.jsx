@@ -12,7 +12,7 @@ export default function Rightbar({ user }) {
   // console.log("user  ", user);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
-  const { currentUser, dispatch } = useContext(AuthContext);
+  const { user: currentUser, dispatch } = useContext(AuthContext);
   // console.log("currentUser", currentUser);
   const [followed, setFollowed] = useState(
     currentUser.followings.includes(user?._id)
@@ -111,7 +111,7 @@ export default function Rightbar({ user }) {
             return (
               <Link
                 key={idx}
-                to={"/profile/" + friend.username}
+                to={"/profile/" + friend._id}
                 style={{ textDecoration: "none" }}
               >
                 <div className="rightbarFollowing">
@@ -138,7 +138,7 @@ export default function Rightbar({ user }) {
   return (
     <div className="rightbar">
       <div className="rightbarWrapper">
-        {user ? <ProfileRightbar /> : <HomeRightbar />}
+        {currentUser ? <ProfileRightbar /> : <HomeRightbar />}
       </div>
     </div>
   );
