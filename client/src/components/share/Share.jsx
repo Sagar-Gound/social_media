@@ -16,34 +16,43 @@ export default function Share() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
   const [file, setFile] = useState(null);
-  
+
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (!desc.current.value.trim()) {
+      console.error("Post description cannot be empty!");
+      return;
+    }
+
     const newPost = {
       userId: currentUser._id,
-      desc: desc.current.value,
+      desc: desc.current.value.trim(),
     };
-    // console.log("File: ",file)
+
+    // console.log("File: ", file)
+    
     if (file) {
       const data = new FormData();
       const fileName = Date.now() + file.name;
       data.append("name", fileName);
       data.append("file", file);
-      newPost.img = fileName;
+      newPost.img = file.name;
+      // newPost.img = fileName;
       // console.log(newPost)
       try {
         console.log(data);
         await axios.post("/upload", data);
-      } catch (error) {}
+      } catch (error) { }
     }
     try {
       await axios.post("/posts", newPost);
       window.location.reload();
-    } catch (error) {}
+    } catch (error) { }
   };
 
   // console.log(currentUser)
-  
+
   return (
     <div className="share">
       <div className="shareWrapper">

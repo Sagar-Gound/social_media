@@ -6,6 +6,7 @@ import {
   deleteUser,
   followUser,
   unfollowUser,
+  friendDetails,
 } from "../controller/user.controller.js";
 
 export const userRoute = Router();
@@ -24,3 +25,6 @@ userRoute.put("/:id/follow", checkObjectId, followUser);
 
 // unfollow a user
 userRoute.put("/:id/unfollow", checkObjectId, unfollowUser);
+
+// get friends data
+userRoute.get("/friends/:id", checkObjectId, friendDetails)

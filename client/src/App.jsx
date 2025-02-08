@@ -10,7 +10,6 @@ import Messenger from "./pages/messenger/Messenger";
 
 function App() {
   const { user: currentUser } = useContext(AuthContext);
-  // console.log("currentUser ", currentUser);
 
   return (
     <BrowserRouter>

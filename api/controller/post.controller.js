@@ -1,10 +1,13 @@
 import { Post } from "../models/Post.js";
 
 export const createPost = async (req, res) => {
-  const { userId, desc, likes, img } = req.body;
-  if (userId && desc && likes && img) {
+
+  const { userId, desc, img } = req.body;
+
+  if (userId && desc && img) {
     try {
-      const newPost = new Post({ userId, desc, likes, img });
+      const newPost = new Post({ userId, desc, img });
+      console.log(newPost);
 
       const data = await newPost.save();
 
@@ -63,6 +66,22 @@ export const getPost = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "An error occurred while fethcing post",
+      error: error.message,
+    });
+  }
+};
+
+export const getAllUserPost = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const post = await Post.find({ userId }).sort({ createdAt: -1 });
+
+    return res
+      .status(200)
+      .json({ message: "All user post fetching was successful", post });
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while fethcing user posts",
       error: error.message,
     });
   }

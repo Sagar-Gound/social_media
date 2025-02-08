@@ -11,30 +11,43 @@ import { Add, Remove } from "@mui/icons-material";
 export default function Rightbar({ user }) {
   // console.log("user  ", user);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState(user.followings || []);
+  const [friendsDetail, setFriendsDetail] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
-  // console.log("currentUser", currentUser);
-  const [followed, setFollowed] = useState(
-    currentUser.followings.includes(user?._id)
-  );
 
-  // useEffect(() => {
-  //   setFollowed(currentUser.followings.includes(user?._id));
-  // }, [currentUser, user._id]);
+  const [followed, setFollowed] = useState(false);
+
+  useEffect(() => {
+    setFollowed(currentUser.followings.includes(user?._id));
+  }, [currentUser, user._id]);
 
   useEffect(() => {
     const getFriends = async () => {
       try {
-        // console.log("user ", user);
-        const friendList = await axios.get("/users/friends/" + user?._id);
-        setFriends(friendList.data);
-        console.log({ friends });
+        let temp = await Promise.all(
+          currentUser.followings.map(async (friendId) => {
+            try {
+              let response = await axios.get(`/users/friends/${friendId}`);
+              return response.data;
+            } catch (error) {
+              console.error(`Error fetching user ${friendId}:`, error);
+              return null;
+            }
+          })
+        );
+  
+        temp = temp.filter(Boolean);
+        setFriendsDetail(temp);
       } catch (error) {
-        console.log("Error: ", error);
+        console.error("Error: ", error);
       }
     };
-    getFriends();
-  });
+  
+    if (currentUser?.followings?.length) {
+      getFriends();
+    }
+  }, [currentUser.followings]);
+  
 
   const handleClick = async () => {
     try {
@@ -100,14 +113,14 @@ export default function Rightbar({ user }) {
               {user.relationship === 1
                 ? "Single"
                 : user.relationship === 2
-                ? "Married"
-                : "-"}
+                  ? "Married"
+                  : "-"}
             </span>
           </div>
         </div>
         <h4 className="rightbarTitle">User Friends</h4>
         <div className="rigthbarFollowings">
-          {friends.map((friend, idx) => {
+          {friendsDetail.length && friendsDetail.map((friend, idx) => {
             return (
               <Link
                 key={idx}
@@ -135,6 +148,7 @@ export default function Rightbar({ user }) {
       </>
     );
   };
+
   return (
     <div className="rightbar">
       <div className="rightbarWrapper">

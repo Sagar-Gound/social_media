@@ -5,6 +5,7 @@ import {
   updatePost,
   likeAndDislikePost,
   deletePost,
+  getAllUserPost,
 } from "../controller/post.controller.js";
 import { checkObjectId } from "../helper.js";
 
@@ -18,6 +19,9 @@ postRoute.put("/:id", checkObjectId, updatePost);
 
 // get a post
 postRoute.get("/:id", checkObjectId, getPost);
+
+// get all user post
+postRoute.get("/allPosts/:id", checkObjectId, getAllUserPost);
 
 // like a post
 postRoute.put("/like/:id", checkObjectId, likeAndDislikePost);

@@ -11,7 +11,7 @@ export const getUser = async (req, res) => {
 
   try {
     const user = await User.findById(id);
-    
+
     if (user) {
       const { password, updatedAt, ...other } = user._doc;
       return res.status(200).json(other);
@@ -163,3 +163,32 @@ export const unfollowUser = async (req, res) => {
     });
   }
 };
+
+export const friendDetails = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).send({
+      message: "User ID is required",
+    });
+  }
+
+  try {
+    const user = await User.findById(id);
+
+    if (user) {
+      const { password, updatedAt, ...other } = user._doc;
+      return res.status(200).json(other);
+    } else {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Something went wrong while getting the user!",
+      error: error.message,
+    });
+  }
+}
