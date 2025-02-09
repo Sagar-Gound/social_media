@@ -45,7 +45,7 @@ export default function Post({ post }) {
                 display: "flex",
                 alignItems: "center",
               }}
-              to={`profile/${user.username}`}
+              to={`/profile/${user._id}`}
             >
               <img
                 src={

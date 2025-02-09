@@ -121,6 +121,7 @@ export default function Rightbar({ user }) {
         <h4 className="rightbarTitle">User Friends</h4>
         <div className="rigthbarFollowings">
           {friendsDetail.length && friendsDetail.map((friend, idx) => {
+            console.log({friend})
             return (
               <Link
                 key={idx}

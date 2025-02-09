@@ -4,9 +4,13 @@ import Share from "../share/Share";
 import "./feed.css";
 import axios from "../../config/axiosConfig.js";
 import { AuthContext } from "./../../context/AuthContext";
+import { useParams } from "react-router-dom";
 
 export default function Feed({ username }) {
   const [posts, setPosts] = useState([]);
+  const id = useParams();
+  console.log(id);
+  
   const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
