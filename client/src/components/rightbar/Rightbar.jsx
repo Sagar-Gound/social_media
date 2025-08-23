@@ -10,12 +10,11 @@ import { Add, Remove } from "@mui/icons-material";
 import { getAllFriends } from "../../apiCalls";
 
 export default function Rightbar({ user }) {
-  // console.log("user  ", user);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friendsDetail, setFriendsDetail] = useState([]);
   const [loadingFriends, setLoadingFriends] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
   const { user: currentUser, dispatch } = useContext(AuthContext);
-
   const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
@@ -28,7 +27,7 @@ export default function Rightbar({ user }) {
         setLoadingFriends(true);
         // Use the getAllFriends API to get current user's friends
         const result = await getAllFriends(currentUser._id);
-        
+
         if (result.success) {
           setFriendsDetail(result.data);
         } else {
@@ -47,10 +46,14 @@ export default function Rightbar({ user }) {
       getFriends();
     }
   }, [currentUser._id, currentUser.followings]); // Re-fetch when followings change
-  
+
 
   const handleClick = async () => {
+    if (followLoading) return; // Prevent multiple clicks
+
     try {
+      setFollowLoading(true);
+
       if (followed) {
         await axios.put("/users/" + user._id + "/unfollow", {
           userId: currentUser._id,
@@ -63,7 +66,7 @@ export default function Rightbar({ user }) {
         dispatch({ type: "FOLLOW", payload: user._id });
       }
       setFollowed(!followed);
-      
+
       // Refresh friends list after follow/unfollow action
       setTimeout(async () => {
         try {
@@ -80,6 +83,8 @@ export default function Rightbar({ user }) {
       }, 500); // Small delay to ensure backend is updated
     } catch (error) {
       console.log(error);
+    } finally {
+      setFollowLoading(false);
     }
   };
 
@@ -87,12 +92,14 @@ export default function Rightbar({ user }) {
     return (
       <>
         <div className="birthdayContainer">
-          <img src="assets/gift.png" alt="" className="birthdayImg" />
+          <img src="assets/gift.png" alt="Birthday gift" className="birthdayImg" />
           <span className="birthdayText">
-            <b>Pola Fester </b> and <b>3 other friends</b> have a birthday today
+            <b>Pola Fester</b> and <b>3 other friends</b> have a birthday today
           </span>
         </div>
-        <img src="assets/ad.png" alt="" className="rightbarAd" />
+
+        <img src="assets/ad.png" alt="Advertisement" className="rightbarAd" />
+
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarFriendList">
           {Users.map((u) => (
@@ -107,20 +114,34 @@ export default function Rightbar({ user }) {
     return (
       <>
         {user.username !== currentUser.username && (
-          <button className="rightbarFollowButton" onClick={handleClick}>
-            {followed ? "Unfollow" : "Follow"}
-            {followed ? <Remove /> : <Add />}
+          <button
+            className="rightbarFollowButton"
+            onClick={handleClick}
+            disabled={followLoading}
+          >
+            {followLoading ? (
+              <>
+                <div className="loadingSpinner"></div>
+                {followed ? "Unfollowing..." : "Following..."}
+              </>
+            ) : (
+              <>
+                {followed ? "Unfollow" : "Follow"}
+                {followed ? <Remove /> : <Add />}
+              </>
+            )}
           </button>
         )}
+
         <h4 className="rightbarTitle">User Information</h4>
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">{user.city}</span>
+            <span className="rightbarInfoValue">{user.city || "Not specified"}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">{user.from}</span>
+            <span className="rightbarInfoValue">{user.from || "Not specified"}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">Relationship:</span>
@@ -129,48 +150,54 @@ export default function Rightbar({ user }) {
                 ? "Single"
                 : user.relationship === 2
                   ? "Married"
-                  : "-"}
+                  : "Not specified"}
             </span>
           </div>
         </div>
-        <h4 className="rightbarTitle">User Friends ({friendsDetail.length})</h4>
+
+        <h4 className="rightbarTitle">
+          User Friends ({friendsDetail.length})
+        </h4>
         <div className="rigthbarFollowings">
           {loadingFriends ? (
-            <div className="friendsLoading">
-              <p>Loading friends...</p>
+            <div className="friendsSkeleton">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="friendSkeletonItem">
+                  <div className="skeletonAvatar"></div>
+                  <div className="skeletonName"></div>
+                </div>
+              ))}
             </div>
-          ) : friendsDetail.length > 0 ? (
-            friendsDetail.map((friend, idx) => {
-              console.log({friend})
-              return (
-                <Link
-                  key={friend._id || idx}
-                  to={"/profile/" + friend._id}
-                  style={{ textDecoration: "none" }}
-                >
-                  <div className="rightbarFollowing">
-                    <img
-                      src={
-                        friend.profilePicture
-                          ? PF + friend.profilePicture
-                          : PF + "profile/noAvatar.png"
-                      }
-                      alt=""
-                      className="rightbarFollowingImg"
-                    />
-                    <span className="rightbarFollowingName">
-                      {friend.username}
-                    </span>
-                  </div>
-                </Link>
-              );
-            })
-          ) : (
-            <div className="noFriendsMessage">
-              <p>No friends yet. Start following people to see them here!</p>
-            </div>
+          ) : friendsDetail.length > 0 && (
+            friendsDetail.map((friend, idx) => (
+              <Link
+                key={friend._id || idx}
+                to={`/profile/${friend._id}`}
+                style={{ textDecoration: "none" }}
+                className="rightbarFollowing"
+              >
+                <img
+                  src={
+                    friend.profilePicture
+                      ? PF + friend.profilePicture
+                      : PF + "profile/noAvatar.png"
+                  }
+                  alt={friend.username}
+                  className="rightbarFollowingImg"
+                  loading="lazy"
+                />
+                <span className="rightbarFollowingName">
+                  {friend.username}
+                </span>
+              </Link>
+            ))
           )}
         </div>
+        {friendsDetail.length === 0 && (
+          <div className="noFriendsMessage">
+            <p>No friends yet. Start following people to see them here!</p>
+          </div>
+        )}
       </>
     );
   };

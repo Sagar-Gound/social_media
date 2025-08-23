@@ -6,6 +6,46 @@
     padding: 20px;
 }
 
+/* Feed Header */
+.feedHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.feedTitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.refreshButton {
+    background: #1876f2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.refreshButton:hover:not(:disabled) {
+    background: #1565c0;
+    transform: translateY(-1px);
+}
+
+.refreshButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* Loading and Error States */
 .feedError {
     margin-bottom: 20px;
@@ -105,6 +145,37 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+/* Infinite Scroll Indicators */
+.loadingMore {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    background: rgba(24, 118, 242, 0.05);
+    border-radius: 8px;
+    color: #1876f2;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.endOfPosts {
+    text-align: center;
+    padding: 30px 20px;
+    color: #666;
+    font-style: italic;
+}
+
+.endOfPosts p {
+    margin: 0;
+    font-size: 14px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px dashed #dee2e6;
 }
 
 /* Responsive Design */

@@ -1,72 +1,181 @@
 .rightbar {
     flex: 3.5;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #e4e6ea #f8f9fa;
+}
+
+/* Custom scrollbar for webkit browsers */
+.rightbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.rightbar::-webkit-scrollbar-track {
+    background: #f8f9fa;
+    border-radius: 3px;
+}
+
+.rightbar::-webkit-scrollbar-thumb {
+    background: #e4e6ea;
+    border-radius: 3px;
+}
+
+.rightbar::-webkit-scrollbar-thumb:hover {
+    background: #d0d2d6;
 }
 
 .rightbarWrapper {
     padding: 20px 20px 0 0;
+    animation: fadeInRight 0.6s ease-out;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .birthdayContainer {
     display: flex;
     align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.birthdayContainer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .birthdayImg {
     height: 40px;
     width: 40px;
-    margin-right: 10px;
+    margin-right: 12px;
+    filter: brightness(1.1);
 }
 
 .birthdayText {
-    font-weight: 400;
-    font-size: 15px;
+    font-weight: 500;
+    font-size: 14px;
+    color: white;
+    line-height: 1.4;
 }
 
 .rightbarAd {
     width: 100%;
-    border-radius: 10px;
-    margin: 30px 0;
+    border-radius: 12px;
+    margin: 20px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rightbarAd:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .rightbarTitle {
-    margin: 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 24px 0 16px 0;
+    color: #1c1e21;
+    position: relative;
+    padding-left: 12px;
+}
+
+.rightbarTitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
 }
 
 .rightbarFriendList {
     padding: 0;
     margin: 0;
     list-style: none;
-}
-
-.rightbarTitle {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .rightbarInfo {
     margin-bottom: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e4e6ea;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .rightbarInfoItem {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #f0f2f5;
+    transition: background-color 0.2s ease;
+}
+
+.rightbarInfoItem:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.rightbarInfoItem:hover {
+    background-color: #f7f7f7;
+    border-radius: 6px;
 }
 
 .rightbarInfoKey {
-    font-weight: 500;
+    font-weight: 600;
     margin-right: 15px;
-    color: #555;
+    color: #65676b;
+    min-width: 100px;
+    font-size: 14px;
 }
 
 .rightbarInfoValue {
-    font-weight: 300;
+    font-weight: 500;
+    color: #1c1e21;
+    font-size: 14px;
+    flex: 1;
 }
 
 .rigthbarFollowings {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 1.4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
 }
 
 .rightbarFollowing {
@@ -74,65 +183,281 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    /* width: calc(100% / 3); */
-    margin-bottom: 20px;
+    padding: 16px 8px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid #e4e6ea;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.rightbarFollowing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.rightbarFollowing:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.rightbarFollowing:hover::before {
+    left: 100%;
 }
 
 .rightbarFollowingImg {
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
     object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 5px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    border: 3px solid #e4e6ea;
+    transition: all 0.3s ease;
+}
+
+.rightbarFollowing:hover .rightbarFollowingImg {
+    border-color: #667eea;
+    transform: scale(1.1);
 }
 
 .rightbarFollowButton {
-    margin-top: 30px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border: none;
-    background-color: #1872f2;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    border-radius: 5px;
-    padding: 5px 10px;
+    border-radius: 25px;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
-    font-size: 16px;
-    font-weight: 500;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+    gap: 8px;
+}
+
+.rightbarFollowButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.rightbarFollowButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.rightbarFollowButton:hover::before {
+    left: 100%;
+}
+
+.rightbarFollowButton:active {
+    transform: translateY(0);
 }
 
 .rightbarFollowButton:focus {
     outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
 }
 
-.rightbarFollowingName{
+.rightbarFollowButton svg {
+    font-size: 18px;
+}
+
+.rightbarFollowingName {
     text-transform: capitalize;
-    color: black;
-    font-weight: 500;
+    color: #1c1e21;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    transition: color 0.3s ease;
+    line-height: 1.2;
+}
+
+.rightbarFollowing:hover .rightbarFollowingName {
+    color: #667eea;
 }
 
 .friendsLoading {
     text-align: center;
-    padding: 20px;
-    color: #666;
+    padding: 40px 20px;
+    color: #65676b;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e4e6ea;
+    margin: 16px 0;
 }
 
 .friendsLoading p {
     margin: 0;
     font-style: italic;
+    font-size: 14px;
 }
+
+.loadingSpinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e4e6ea;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 12px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Skeleton loading animations */
+.friendsSkeleton {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.friendSkeletonItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 8px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid #e4e6ea;
+}
+
+.skeletonAvatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    margin-bottom: 8px;
+}
+
+.skeletonName {
+    width: 60px;
+    height: 12px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 6px;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Additional animations */
+.rightbarFollowing {
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Staggered animation for friends list */
+.rightbarFollowing:nth-child(1) { animation-delay: 0.1s; }
+.rightbarFollowing:nth-child(2) { animation-delay: 0.2s; }
+.rightbarFollowing:nth-child(3) { animation-delay: 0.3s; }
+.rightbarFollowing:nth-child(4) { animation-delay: 0.4s; }
+.rightbarFollowing:nth-child(5) { animation-delay: 0.5s; }
+.rightbarFollowing:nth-child(6) { animation-delay: 0.6s; }
 
 .noFriendsMessage {
     text-align: center;
-    padding: 20px;
-    color: #666;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    margin: 10px 0;
+    padding: 40px 20px;
+    color: #65676b;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    margin: 16px 0;
+    border: 1px solid #e4e6ea;
+    position: relative;
+    overflow: hidden;
+}
+
+.noFriendsMessage::before {
+    content: '👥';
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+    opacity: 0.5;
 }
 
 .noFriendsMessage p {
     margin: 0;
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .rightbar {
+        position: static;
+        height: auto;
+    }
+    
+    .rightbarWrapper {
+        padding: 16px;
+    }
+    
+    .rigthbarFollowings {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 12px;
+    }
+    
+    .rightbarFollowingImg {
+        height: 60px;
+        width: 60px;
+    }
+    
+    .birthdayContainer {
+        padding: 12px;
+    }
+    
+    .rightbarInfo {
+        padding: 16px;
+    }
+    
+    .rightbarFollowButton {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
 }

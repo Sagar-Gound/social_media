@@ -1,26 +1,100 @@
 .rightbarFriend {
     display: flex;
-    margin-bottom: 5px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.rightbarFriend:hover {
+    background-color: #f8f9fa;
+    border-color: #e4e6ea;
+    transform: translateX(4px);
 }
 
 .rightbarProfileImgContainer {
-    margin-right: 10px;
+    margin-right: 12px;
     position: relative;
 }
 
 .rightbarProfileImg {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     object-fit: cover;
     object-position: top;
+    border: 2px solid #e4e6ea;
+    transition: all 0.3s ease;
 }
 
-.rightbarOnline{
-    width: 12px;height: 12px;border-radius: 50%;
-    background-color: limegreen;
+.rightbarFriend:hover .rightbarProfileImg {
+    border-color: #667eea;
+    transform: scale(1.05);
+}
+
+.rightbarOnline {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4ade80, #22c55e);
     position: absolute;
     top: -2px;
-    right: 0;
-    border: 2px solid white;
+    right: -2px;
+    border: 3px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+.rightbarUsername {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1c1e21;
+    transition: color 0.3s ease;
+}
+
+.rightbarFriend:hover .rightbarUsername {
+    color: #667eea;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .rightbarFriend:hover {
+        background-color: #3a3b3c;
+        border-color: #4a4a4a;
+    }
+    
+    .rightbarProfileImg {
+        border-color: #4a4a4a;
+    }
+    
+    .rightbarFriend:hover .rightbarProfileImg {
+        border-color: #667eea;
+    }
+    
+    .rightbarOnline {
+        border-color: #242526;
+    }
+    
+    .rightbarUsername {
+        color: #e4e6ea;
+    }
+    
+    .rightbarFriend:hover .rightbarUsername {
+        color: #667eea;
+    }
 }

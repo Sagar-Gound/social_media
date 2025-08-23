@@ -1,15 +1,145 @@
 .post {
     width: 100%;
-    border-radius: 5px;
-    box-shadow: 1px -1px 7px -1px rgba(171, 156, 156, 0.75);
-    -webkit-box-shadow: 1px -1px 7px -1px rgba(171, 156, 156, 0.75);
-    -moz-box-shadow: 2px 2px 66px -8px rgb(58 56 56 / 40%);
-
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin: 20px 0;
+    background: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.post:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.post.deleting {
+    opacity: 0;
+    transform: translateX(-100%) scale(0.95);
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 0;
+    margin-bottom: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.post.deleting .postWrapper {
+    padding: 0;
+}
+
+/* Loading overlay for delete operation */
+.postLoadingOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 12px;
+    backdrop-filter: blur(2px);
+}
+
+.postLoadingSpinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #e41e3f;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.postLoadingText {
+    margin-left: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1c1e21;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .post {
+        margin: 16px 0;
+        border-radius: 8px;
+    }
+
+    .post:hover {
+        transform: none;
+    }
 }
 
 .postWrapper {
-    padding: 10px;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .postWrapper {
+        padding: 16px;
+    }
+}
+
+/* Loading skeleton styles */
+.postSkeleton {
+    padding: 20px;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.skeletonLine {
+    height: 20px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.skeletonCircle {
+    width: 33px;
+    height: 33px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 50%;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
 }
 
 .postTop {
@@ -24,21 +154,37 @@
 }
 
 .postProfileImg {
-    width: 33px;
-    height: 33px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
     border-radius: 50%;
     object-position: top;
+    transition: transform 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.postProfileImg:hover {
+    transform: scale(1.1);
+    border-color: #1877f2;
 }
 
 .postUserName {
     font-size: 15px;
-    font-weight: 500;
-    margin: 0 10px;
+    font-weight: 600;
+    margin: 0 12px;
+    color: #1c1e21;
+    transition: color 0.2s ease;
+}
+
+.postUserName:hover {
+    color: #1877f2;
 }
 
 .postDate {
     font-size: 12px;
+    color: #65676b;
+    font-weight: 400;
+    margin: 0 12px;
 }
 
 .postCenter {
@@ -52,20 +198,45 @@
 .postText {
     width: 100%;
     text-align: left;
+    line-height: 1.6;
+    color: #1c1e21;
+    font-size: 14px;
+    margin-bottom: 12px;
 }
 
 .postImg {
-    border-radius: 5px;
+    border-radius: 8px;
     margin: 10px 0;
     width: 100%;
-    max-height: 350px;
+    max-height: 400px;
+    object-fit: cover;
     object-fit: contain;
+    background-color: #f0f0f0;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.postImg:hover {
+    transform: scale(1.02);
+}
+
+.imageLoading {
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 8px;
+    margin: 10px 0;
 }
 
 .postBottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e4e6ea;
 }
 
 .postBottomLeft {
@@ -76,16 +247,229 @@
 .likeIcon {
     width: 24px;
     height: 24px;
-    margin-right: 5px;
+    margin-right: 8px;
     cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: grayscale(100%);
+}
+
+.likeIcon:hover {
+    transform: scale(1.2);
+    filter: grayscale(0%);
+}
+
+.likeIcon.liked {
+    filter: grayscale(0%);
+    animation: likeAnimation 0.6s ease;
+}
+
+@keyframes likeAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.likeButton {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.likeButton:hover {
+    background-color: rgba(255, 0, 0, 0.1);
 }
 
 .postLikeCounter {
     font-size: 14px;
+    color: #65676b;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.postLikeCounter.updated {
+    animation: likeCountPulse 0.4s ease;
+}
+
+@keyframes likeCountPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+        color: #1877f2;
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .postCommentText {
     font-size: 14px;
     cursor: pointer;
-    border-bottom: 1px dashed gray;
+    color: #65676b;
+    transition: all 0.2s ease;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.postCommentText:hover {
+    color: #1877f2;
+    background-color: rgba(24, 119, 242, 0.1);
+}
+
+.postOptionsWrapper {
+    position: relative;
+}
+
+.postOptionsIcon {
+    cursor: pointer;
+    color: #65676b;
+    font-size: 20px !important;
+    padding: 3px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.postOptionsIcon:hover {
+    color: #1c1e21;
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.postDropdown {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: white;
+    border: 1px solid #dadde1;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
+    min-width: 180px;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    animation: dropdownSlideIn 0.2s ease forwards;
+}
+
+@keyframes dropdownSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.postDropdownItem {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.postDropdownItem:hover {
+    background-color: #f2f3f4;
+}
+
+.postDropdownItem:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.postDropdownItem:last-child {
+    border-radius: 0 0 8px 8px;
+}
+
+.postDropdownItem.delete {
+    color: #e41e3f;
+}
+
+.postDropdownItem.delete:hover {
+    background-color: #ffebee;
+}
+
+.postDropdownItem:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.dropdownIcon {
+    margin-right: 12px;
+    font-size: 18px !important;
+}
+
+.deleteLoader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #e41e3f;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Additional responsive improvements */
+@media (max-width: 768px) {
+    .postProfileImg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .postUserName {
+        font-size: 14px;
+        margin: 0 10px;
+    }
+
+    .postDate {
+        font-size: 11px;
+    }
+
+    .postText {
+        font-size: 13px;
+    }
+
+    .postImg {
+        border-radius: 6px;
+        max-height: 300px;
+    }
+
+    .postDropdown {
+        right: -10px;
+        min-width: 160px;
+    }
+
+    .likeIcon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .postLikeCounter,
+    .postCommentText {
+        font-size: 13px;
+    }
 }

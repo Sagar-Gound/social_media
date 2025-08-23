@@ -13,7 +13,7 @@ export default function Home() {
       <Topbar />
       <div className="homeContainer">
         <Sidebar />
-        <Feed userId={user._id} />
+        <Feed isProfilePage={false} />
         <Rightbar user={user} />
       </div>
     </>

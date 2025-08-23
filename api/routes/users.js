@@ -9,12 +9,16 @@ import {
   friendDetails,
   getAllUsers,
   getAllFriends,
+  searchUser,
 } from "../controller/user.controller.js";
 
 export const userRoute = Router();
 
 // Get all users
 userRoute.get("/all", getAllUsers);
+
+// Search user by username
+userRoute.get("/search", searchUser);
 
 // Get a user by ID
 userRoute.get("/:id", checkObjectId, getUser);

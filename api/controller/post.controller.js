@@ -2,6 +2,8 @@ import { Post } from "../models/Post.js";
 
 export const createPost = async (req, res) => {
 
+  console.log(req.body);
+
   const { userId, desc, img } = req.body;
 
   if (userId && desc && img) {
@@ -119,7 +121,46 @@ export const likeAndDislikePost = async (req, res) => {
 };
 
 export const deletePost = async (req, res) => {
-  // console.log(req.params.id);
+  try {
+    const postId = req.params.id;
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        message: "User ID is required for authorization"
+      });
+    }
+
+    // Find the post to be deleted
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({
+        message: "Post not found"
+      });
+    }
+
+    // Check if the user is authorized to delete this post
+    if (post.userId !== userId) {
+      return res.status(403).json({
+        message: "You can only delete your own posts"
+      });
+    }
+
+    // Delete the post
+    await Post.findByIdAndDelete(postId);
+
+    return res.status(200).json({
+      message: "Post deleted successfully",
+      deletedPostId: postId
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while deleting the post",
+      error: error.message,
+    });
+  }
 };
 
 export const getMyPosts = async (req, res) => {
@@ -133,6 +174,91 @@ export const getMyPosts = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "An error occurred while fetching my posts",
+      error: error.message,
+    });
+  }
+};
+
+// Get timeline posts with pagination (all posts from all users)
+export const getTimelinePosts = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Get total count for pagination
+    const totalPosts = await Post.countDocuments();
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    // Fetch posts with pagination, sorted by creation date (newest first)
+    const posts = await Post.find()
+      .populate('userId', 'username profilePicture email')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    console.log({ posts }, "shajhsjhasjhajshjahsjhasjhaj");
+
+    return res.status(200).json({
+      message: "Timeline posts fetched successfully",
+      posts,
+      pagination: {
+        page,
+        limit,
+        totalPosts,
+        totalPages,
+        hasNext: page < totalPages,
+        hasPrev: page > 1
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while fetching timeline posts",
+      error: error.message,
+    });
+  }
+};
+
+// Get user-specific posts with pagination
+export const getUserPosts = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    if (!userId) {
+      return res.status(400).json({
+        message: "User ID is required"
+      });
+    }
+
+    // Get total count for pagination
+    const totalPosts = await Post.countDocuments({ userId });
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    // Fetch user's posts with pagination, sorted by creation date (newest first)
+    const posts = await Post.find({ userId })
+      .populate('userId', 'username profilePicture email')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    return res.status(200).json({
+      message: "User posts fetched successfully",
+      posts,
+      pagination: {
+        page,
+        limit,
+        totalPosts,
+        totalPages,
+        hasNext: page < totalPages,
+        hasPrev: page > 1
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while fetching user posts",
       error: error.message,
     });
   }

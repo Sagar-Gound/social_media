@@ -8,7 +8,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import {Users} from '../../dummyData'
+import { Users } from '../../dummyData'
 import "./sidebar.css";
 import CloseFriend from "../closeFriend/CloseFriend";
 import OtherUser from "../otherUser/OtherUser";
@@ -48,12 +48,12 @@ export default function Sidebar() {
 
   const handleUserUpdate = (userId, isNowFollowing) => {
     // Update the followers count for the user
-    setOtherUsers(prevUsers => 
+    setOtherUsers(prevUsers =>
       prevUsers.map(user => {
         if (user._id === userId) {
           return {
             ...user,
-            followers: isNowFollowing 
+            followers: isNowFollowing
               ? [...(user.followers || []), currentUser._id]
               : (user.followers || []).filter(id => id !== currentUser._id)
           };
@@ -109,25 +109,25 @@ export default function Sidebar() {
         <button className="sidebarButton" onClick={() => setShowMore(!showMore)}>
           {showMore ? "Show Less" : "Show More"}
         </button>
-        <hr className="sidebarHr" />
-        
+
         {/* Close Friends Section */}
-        <div className="sidebarSection">
+        {/* <div className="sidebarSection">
+          <hr className="sidebarHr" />
           <h4 className="sidebarSectionTitle">Close Friends</h4>
           <ul className="sidebarFriendList">
             {Users.slice(0, 3).map(u => (
               <CloseFriend user={u} key={u.id} />
-            ))}          
+            ))}
           </ul>
-        </div>
-        
+        </div> */}
+
         <hr className="sidebarHr" />
-        
+
         {/* Friends Section */}
         <Friends />
-        
+
         <hr className="sidebarHr" />
-        
+
         {/* Other Users Section */}
         <div className="sidebarSection">
           <h4 className="sidebarSectionTitle">
@@ -149,15 +149,15 @@ export default function Sidebar() {
             <>
               <div className="otherUsersList">
                 {displayedUsers.map(user => (
-                  <OtherUser 
-                    user={user} 
-                    key={user._id} 
+                  <OtherUser
+                    user={user}
+                    key={user._id}
                     onUserUpdate={handleUserUpdate}
                   />
                 ))}
               </div>
               {otherUsers.length > 5 && (
-                <button 
+                <button
                   className="showMoreUsersButton"
                   onClick={() => setShowMore(!showMore)}
                 >
