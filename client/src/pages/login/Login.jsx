@@ -1,29 +1,44 @@
-import React, { useRef } from "react";
+import { useEffect } from "react";
 import "./login.css";
 import { loginCall } from "../../apiCalls";
 import { useContext } from "react";
 import { AuthContext } from "./../../context/AuthContext";
 import { CircularProgress } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Visibility, VisibilityOff, Email, Lock } from "@mui/icons-material";
+import { useState } from "react";
 
 export default function Login() {
-  const email = useRef();
-  const password = useRef();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const { user, isFetching, error, dispatch } = useContext(AuthContext);
 
-  const { user, isFetching, dispatch } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid }
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      email: "",
+      password: ""
+    }
+  });
 
-  const handleClick = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
-    loginCall(
-      { email: email.current.value, password: password.current.value },
-      dispatch
-    );
-    // navigate(`/profile/${user._id}`);
+  const onSubmit = async (data) => {
+    await loginCall(data, dispatch);
   };
-  console.log(user);
-  // console.log(isFetching);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="login">
@@ -35,48 +50,87 @@ export default function Login() {
           </span>
         </div>
         <div className="loginRight">
-          <form className="loginBox" onSubmit={handleClick}>
-            <input
-              type="email"
-              className="loginInput"
-              required
-              placeholder="Email"
-              ref={email}
-            />
-            <input
-              type="password"
-              className="loginInput"
-              placeholder="Password"
-              minLength="6"
-              ref={password}
-              required
-            />
-            <button className="loginButton" disabled={isFetching}>
-              {isFetching ? (
-                <CircularProgress
-                  sx={{
-                    color: "white",
-                  }}
-                  size={22}
-                />
-              ) : (
-                "Log In"
+          <div className="loginBox">
+            <h2 className="loginTitle">Welcome Back</h2>
+            <p className="loginSubtitle">Please sign in to your account</p>
+            
+            <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
+              <div className="inputGroup">
+                <div className="inputWithIcon">
+                  <Email className="inputIcon" />
+                  <input
+                    type="email"
+                    className={`loginInput ${errors.email ? 'error' : ''}`}
+                    placeholder="Email address"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address"
+                      }
+                    })}
+                  />
+                </div>
+                {errors.email && <span className="errorMessage">{errors.email.message}</span>}
+              </div>
+
+              <div className="inputGroup">
+                <div className="inputWithIcon">
+                  <Lock className="inputIcon" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className={`loginInput ${errors.password ? 'error' : ''}`}
+                    placeholder="Password"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters"
+                      }
+                    })}
+                  />
+                  <div 
+                    className="passwordToggle" 
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </div>
+                </div>
+                {errors.password && <span className="errorMessage">{errors.password.message}</span>}
+              </div>
+
+              {error && (
+                <div className="loginError">
+                  {typeof error === 'string' ? error : 'Login failed. Please try again.'}
+                </div>
               )}
-            </button>
-            <span className="loginForgot">Forgot Password?</span>
+
+              <button 
+                className="loginButton" 
+                type="submit" 
+                disabled={isFetching || !isValid}
+              >
+                {isFetching ? (
+                  <CircularProgress
+                    sx={{ color: "white" }}
+                    size={22}
+                  />
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+
+              <span className="loginForgot">Forgot Password?</span>
+            </form>
+
+            <div className="divider">
+              <span>Don't have an account?</span>
+            </div>
+
             <Link to="/register" className="loginRegisterButton">
-              {isFetching ? (
-                <CircularProgress
-                  sx={{
-                    color: "white",
-                  }}
-                  size={22}
-                />
-              ) : (
-                "Create a New Account"
-              )}
+              Create New Account
             </Link>
-          </form>
+          </div>
         </div>
       </div>
     </div>

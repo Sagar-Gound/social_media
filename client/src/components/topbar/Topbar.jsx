@@ -1,14 +1,25 @@
 import React, { useContext } from "react";
 import "./topbar.css";
-import { Search, Person, Chat, Notifications } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Search, Person, Chat, Notifications, ExitToApp } from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext";
+import { logoutCall } from "../../apiCalls";
 
 export default function Topbar() {
-  const { user: currentUser } = useContext(AuthContext);
+  const { user: currentUser, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  // console.log(currentUser)
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      const success = logoutCall(dispatch);
+      if (success) {
+        // Use replace to prevent going back to authenticated pages
+        navigate("/login", { replace: true });
+      }
+    }
+  };
 
   return (
     <div className="topbarContainer">
@@ -43,6 +54,9 @@ export default function Topbar() {
           <div className="topbarIconItem">
             <Notifications sx={{ width: "22px", height: "22px" }} />
             <span className="topbarIconBadge">1</span>
+          </div>
+          <div className="topbarIconItem logout-icon" onClick={handleLogout} style={{ cursor: "pointer" }} title="Logout">
+            <ExitToApp sx={{ width: "22px", height: "22px" }} />
           </div>
         </div>
         <Link to={`/profile/${currentUser._id}`}>
