@@ -24,3 +24,50 @@ export const logoutCall = (dispatch) => {
     return false;
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const res = await axios.get("/users/all");
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+};
+
+export const followUser = async (userId, currentUserId) => {
+  try {
+    const res = await axios.put(`/users/${userId}/follow`, {
+      userId: currentUserId
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error following user:", error);
+    throw error;
+  }
+};
+
+export const unfollowUser = async (userId, currentUserId) => {
+  try {
+    const res = await axios.put(`/users/${userId}/unfollow`, {
+      userId: currentUserId
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error unfollowing user:", error);
+    throw error;
+  }
+};
+
+export const getAllFriends = async (userId) => {
+  try {
+    const response = await axios.get(`/users/${userId}/friends`);
+    return { success: true, data: response.data };
+  } catch (error) {
+    console.error("Error fetching friends:", error);
+    return { 
+      success: false, 
+      error: error.response?.data?.message || "Failed to fetch friends" 
+    };
+  }
+};

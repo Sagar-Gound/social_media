@@ -121,3 +121,19 @@ export const likeAndDislikePost = async (req, res) => {
 export const deletePost = async (req, res) => {
   // console.log(req.params.id);
 };
+
+export const getMyPosts = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const posts = await Post.find({ userId }).sort({ createdAt: -1 });
+
+    return res
+      .status(200)
+      .json({ message: "My posts fetching was successful", posts });
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while fetching my posts",
+      error: error.message,
+    });
+  }
+};

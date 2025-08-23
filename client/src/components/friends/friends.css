@@ -1,0 +1,207 @@
+.friends {
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.friendsTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.friendsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.friendCard {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.friendCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.friendImage {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid #e3e3e3;
+}
+
+.friendInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.friendName {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.2;
+}
+
+.friendUsername {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.2;
+}
+
+.friendActions {
+  display: flex;
+  gap: 8px;
+}
+
+.messageButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 50%;
+  background-color: #1876f2;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.messageButton:hover {
+  background-color: #1565c0;
+  transform: scale(1.05);
+}
+
+.messageIcon {
+  font-size: 18px !important;
+}
+
+.noFriends {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+}
+
+.noFriendsIcon {
+  font-size: 48px !important;
+  color: #ccc;
+  margin-bottom: 16px;
+}
+
+.noFriends p {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.noFriends span {
+  font-size: 14px;
+  color: #666;
+}
+
+.friendsError {
+  padding: 20px;
+  text-align: center;
+  color: #d32f2f;
+  background-color: #ffebee;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.friendsError p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Skeleton Loading */
+.skeleton {
+  background-color: #f5f5f5 !important;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.skeleton-shimmer {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%, 
+    rgba(255,255,255,0.6) 50%, 
+    rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text {
+  height: 12px;
+  background: linear-gradient(90deg, 
+    rgba(0,0,0,0.1) 0%, 
+    rgba(0,0,0,0.06) 50%, 
+    rgba(0,0,0,0.1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.skeleton-text:first-child {
+  width: 80px;
+}
+
+.skeleton-text:last-child {
+  width: 60px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .friends {
+    padding: 15px;
+  }
+  
+  .friendCard {
+    padding: 10px;
+  }
+  
+  .friendImage {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .messageButton {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .messageIcon {
+    font-size: 16px !important;
+  }
+}

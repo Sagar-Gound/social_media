@@ -54,3 +54,114 @@ background-color: rgb(179, 179, 179);}
     list-style: none;
 }
 
+.sidebarSection {
+    margin-bottom: 20px;
+}
+
+.sidebarSectionTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.otherUsersList {
+    padding: 0;
+    margin: 0;
+}
+
+.loadingMessage,
+.noUsersMessage {
+    text-align: center;
+    color: #6c757d;
+    font-size: 12px;
+    padding: 20px;
+    font-style: italic;
+}
+
+.loadingContainer {
+    padding: 10px 0;
+}
+
+.userSkeleton {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    margin-right: 12px;
+}
+
+.skeletonContent {
+    flex: 1;
+}
+
+.skeletonName {
+    height: 14px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    width: 70%;
+}
+
+.skeletonEmail {
+    height: 12px;
+    background-color: #f1f3f4;
+    border-radius: 4px;
+    width: 50%;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.showMoreUsersButton {
+    width: 100%;
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    color: #495057;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+}
+
+.showMoreUsersButton:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    .sidebarSectionTitle {
+        font-size: 13px;
+    }
+    
+    .showMoreUsersButton {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+}
+

@@ -7,12 +7,13 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Add, Remove } from "@mui/icons-material";
+import { getAllFriends } from "../../apiCalls";
 
 export default function Rightbar({ user }) {
   // console.log("user  ", user);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const [friends, setFriends] = useState(user.followings || []);
   const [friendsDetail, setFriendsDetail] = useState([]);
+  const [loadingFriends, setLoadingFriends] = useState(false);
   const { user: currentUser, dispatch } = useContext(AuthContext);
 
   const [followed, setFollowed] = useState(false);
@@ -24,29 +25,28 @@ export default function Rightbar({ user }) {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        let temp = await Promise.all(
-          currentUser.followings.map(async (friendId) => {
-            try {
-              let response = await axios.get(`/users/friends/${friendId}`);
-              return response.data;
-            } catch (error) {
-              console.error(`Error fetching user ${friendId}:`, error);
-              return null;
-            }
-          })
-        );
-  
-        temp = temp.filter(Boolean);
-        setFriendsDetail(temp);
+        setLoadingFriends(true);
+        // Use the getAllFriends API to get current user's friends
+        const result = await getAllFriends(currentUser._id);
+        
+        if (result.success) {
+          setFriendsDetail(result.data);
+        } else {
+          console.error("Error fetching friends:", result.error);
+          setFriendsDetail([]);
+        }
       } catch (error) {
-        console.error("Error: ", error);
+        console.error("Error fetching friends:", error);
+        setFriendsDetail([]);
+      } finally {
+        setLoadingFriends(false);
       }
     };
-  
-    if (currentUser?.followings?.length) {
+
+    if (currentUser?._id) {
       getFriends();
     }
-  }, [currentUser.followings]);
+  }, [currentUser._id, currentUser.followings]); // Re-fetch when followings change
   
 
   const handleClick = async () => {
@@ -62,10 +62,25 @@ export default function Rightbar({ user }) {
         });
         dispatch({ type: "FOLLOW", payload: user._id });
       }
+      setFollowed(!followed);
+      
+      // Refresh friends list after follow/unfollow action
+      setTimeout(async () => {
+        try {
+          setLoadingFriends(true);
+          const result = await getAllFriends(currentUser._id);
+          if (result.success) {
+            setFriendsDetail(result.data);
+          }
+        } catch (error) {
+          console.error("Error refreshing friends:", error);
+        } finally {
+          setLoadingFriends(false);
+        }
+      }, 500); // Small delay to ensure backend is updated
     } catch (error) {
       console.log(error);
     }
-    setFollowed(!followed);
   };
 
   const HomeRightbar = () => {
@@ -118,33 +133,43 @@ export default function Rightbar({ user }) {
             </span>
           </div>
         </div>
-        <h4 className="rightbarTitle">User Friends</h4>
+        <h4 className="rightbarTitle">User Friends ({friendsDetail.length})</h4>
         <div className="rigthbarFollowings">
-          {friendsDetail.length && friendsDetail.map((friend, idx) => {
-            console.log({friend})
-            return (
-              <Link
-                key={idx}
-                to={"/profile/" + friend._id}
-                style={{ textDecoration: "none" }}
-              >
-                <div className="rightbarFollowing">
-                  <img
-                    src={
-                      friend.profilePicture
-                        ? PF + friend.profilePicture
-                        : PF + "profile/noAvatar.png"
-                    }
-                    alt=""
-                    className="rightbarFollowingImg"
-                  />
-                  <span className="rightbarFollowingName">
-                    {friend.username}
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+          {loadingFriends ? (
+            <div className="friendsLoading">
+              <p>Loading friends...</p>
+            </div>
+          ) : friendsDetail.length > 0 ? (
+            friendsDetail.map((friend, idx) => {
+              console.log({friend})
+              return (
+                <Link
+                  key={friend._id || idx}
+                  to={"/profile/" + friend._id}
+                  style={{ textDecoration: "none" }}
+                >
+                  <div className="rightbarFollowing">
+                    <img
+                      src={
+                        friend.profilePicture
+                          ? PF + friend.profilePicture
+                          : PF + "profile/noAvatar.png"
+                      }
+                      alt=""
+                      className="rightbarFollowingImg"
+                    />
+                    <span className="rightbarFollowingName">
+                      {friend.username}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })
+          ) : (
+            <div className="noFriendsMessage">
+              <p>No friends yet. Start following people to see them here!</p>
+            </div>
+          )}
         </div>
       </>
     );

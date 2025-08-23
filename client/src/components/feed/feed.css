@@ -1,6 +1,133 @@
 .feed{
     flex: 5.5;
 }
+
 .feedWrapper{
     padding: 20px;
+}
+
+/* Loading and Error States */
+.feedError {
+    margin-bottom: 20px;
+}
+
+.retryButton {
+    background: none;
+    border: none;
+    color: #1876f2;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.retryButton:hover {
+    color: #1565c0;
+}
+
+.feedLoading {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.postSkeleton {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.refreshIndicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(24, 118, 242, 0.1);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #1876f2;
+    font-size: 14px;
+}
+
+/* Empty Feed State */
+.emptyFeed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    padding: 40px 20px;
+}
+
+.emptyFeedContent {
+    text-align: center;
+    max-width: 400px;
+}
+
+.emptyFeedContent h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.emptyFeedContent p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.createPostButton {
+    background: #1876f2;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.createPostButton:hover {
+    background: #1565c0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 118, 242, 0.3);
+}
+
+.createPostButton:active {
+    transform: translateY(0);
+}
+
+/* Posts List */
+.postsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .feedWrapper {
+        padding: 15px;
+    }
+    
+    .emptyFeedContent h3 {
+        font-size: 20px;
+    }
+    
+    .emptyFeedContent p {
+        font-size: 14px;
+    }
+    
+    .createPostButton {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
+    .refreshIndicator {
+        padding: 12px;
+        font-size: 13px;
+    }
 }

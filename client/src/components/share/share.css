@@ -74,6 +74,18 @@
     color: white;
     margin-right: 20px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.shareButton:hover:not(:disabled) {
+    background-color: rgba(28, 152, 28, 1);
+    transform: translateY(-1px);
+}
+
+.shareButton:disabled {
+    background-color: rgba(180, 180, 180, 0.8);
+    cursor: not-allowed;
+    transform: none;
 }
 
 .shareImgContainer {

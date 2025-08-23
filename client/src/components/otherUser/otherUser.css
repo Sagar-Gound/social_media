@@ -1,0 +1,172 @@
+.otherUserItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  position: relative;
+}
+
+.otherUserLink {
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.otherUserItem:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.otherUserImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid #dee2e6;
+}
+
+.otherUserInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.otherUserName {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.otherUserEmail {
+  font-size: 12px;
+  color: #6c757d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.otherUserStats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 10px;
+}
+
+.followersCount {
+  font-size: 11px;
+  color: #6c757d;
+  background-color: #e3f2fd;
+  padding: 2px 6px;
+  border-radius: 12px;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.followingBadge {
+  font-size: 10px;
+  color: #28a745;
+  background-color: #d4edda;
+  padding: 1px 4px;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.followButton {
+  /* position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%); */
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.followButton.notFollowing {
+  background-color: #1775ee;
+  color: white;
+}
+
+.followButton.notFollowing:hover {
+  background-color: #0d5cb5;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.followButton.following {
+  background-color: #dc3545;
+  color: white;
+}
+
+.followButton.following:hover {
+  background-color: #c82333;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.followButton.success {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+
+.followButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: translateY(-50%);
+}
+
+.followButton:disabled:hover {
+  transform: translateY(-50%);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .otherUserItem {
+    padding: 8px;
+  }
+
+  .otherUserImg {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+  }
+
+  .otherUserName {
+    font-size: 13px;
+  }
+
+  .otherUserEmail {
+    font-size: 11px;
+  }
+
+  .followersCount {
+    font-size: 10px;
+  }
+
+  .followButton {
+    width: 28px;
+    height: 28px;
+    right: 8px;
+  }
+}

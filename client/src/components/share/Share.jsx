@@ -11,19 +11,22 @@ import { useContext } from "react";
 import { AuthContext } from "./../../context/AuthContext";
 import axios from "axios";
 
-export default function Share() {
+export default function Share({ onNewPost }) {
   const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
   const [file, setFile] = useState(null);
+  const [isPosting, setIsPosting] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     if (!desc.current.value.trim()) {
-      console.error("Post description cannot be empty!");
+      alert("Post description cannot be empty!");
       return;
     }
+
+    setIsPosting(true);
 
     const newPost = {
       userId: currentUser._id,
@@ -43,12 +46,34 @@ export default function Share() {
       try {
         console.log(data);
         await axios.post("/upload", data);
-      } catch (error) { }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        setIsPosting(false);
+        return;
+      }
     }
+    
     try {
-      await axios.post("/posts", newPost);
-      window.location.reload();
-    } catch (error) { }
+      const response = await axios.post("/posts", newPost);
+      
+      // Call the callback with the new post if provided
+      if (onNewPost && response.data) {
+        onNewPost(response.data);
+      }
+      
+      // Clear the form
+      desc.current.value = "";
+      setFile(null);
+      
+      // Show success message
+      alert("Post created successfully!");
+      
+    } catch (error) {
+      console.error("Error creating post:", error);
+      alert("Failed to create post. Please try again.");
+    } finally {
+      setIsPosting(false);
+    }
   };
 
   // console.log(currentUser)
@@ -124,8 +149,12 @@ export default function Share() {
               <span className="shareOptionText">Feelings</span>
             </div>
           </div>
-          <button className="shareButton" type="submit">
-            Share
+          <button 
+            className="shareButton" 
+            type="submit"
+            disabled={isPosting}
+          >
+            {isPosting ? "Posting..." : "Share"}
           </button>
         </form>
       </div>

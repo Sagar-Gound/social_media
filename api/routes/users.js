@@ -7,14 +7,19 @@ import {
   followUser,
   unfollowUser,
   friendDetails,
+  getAllUsers,
+  getAllFriends,
 } from "../controller/user.controller.js";
 
 export const userRoute = Router();
 
+// Get all users
+userRoute.get("/all", getAllUsers);
+
 // Get a user by ID
 userRoute.get("/:id", checkObjectId, getUser);
 
-// Update u user by ID
+// Update a user by ID
 userRoute.put("/:id", checkObjectId, updateUser);
 
 // Delete a user by ID
@@ -26,5 +31,8 @@ userRoute.put("/:id/follow", checkObjectId, followUser);
 // unfollow a user
 userRoute.put("/:id/unfollow", checkObjectId, unfollowUser);
 
-// get friends data
+// get friend's data
 userRoute.get("/friends/:id", checkObjectId, friendDetails)
+
+// Get all friends of a user
+userRoute.get("/:id/friends", checkObjectId, getAllFriends);

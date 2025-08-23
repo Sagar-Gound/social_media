@@ -1,5 +1,18 @@
 import { User } from "../models/User.js";
 
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Something went wrong while getting all users!",
+      error: error.message,
+    });
+  }
+};
+
 export const getUser = async (req, res) => {
   const { id } = req.params;
 
@@ -192,3 +205,38 @@ export const friendDetails = async (req, res) => {
     });
   }
 }
+
+export const getAllFriends = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).send({
+      message: "User ID is required",
+    });
+  }
+
+  try {
+    const user = await User.findById(id);
+
+    if (user) {
+      // Get friends from the friends array, or fallback to followings if friends is empty
+      const friendIds = user.friends && user.friends.length > 0 ? user.friends : user.followings;
+      
+      // Populate friends data
+      const friends = await User.find({ _id: { $in: friendIds } })
+        .select("-password -updatedAt");
+
+      return res.status(200).json(friends);
+    } else {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Something went wrong while getting the user's friends!",
+      error: error.message,
+    });
+  }
+};

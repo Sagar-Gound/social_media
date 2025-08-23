@@ -35,6 +35,10 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       dafault: [],
     },
+    friends: {
+      type: Array,
+      dafault: [],
+    },
     isAdmin: {
       type: Boolean,
       dafault: false,

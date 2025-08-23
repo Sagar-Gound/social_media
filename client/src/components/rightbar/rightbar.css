@@ -110,3 +110,29 @@
     color: black;
     font-weight: 500;
 }
+
+.friendsLoading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.friendsLoading p {
+    margin: 0;
+    font-style: italic;
+}
+
+.noFriendsMessage {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.noFriendsMessage p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
