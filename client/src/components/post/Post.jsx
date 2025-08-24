@@ -73,7 +73,7 @@ export default function Post({ post, onDeletePost }) {
     setTimeout(() => setLikeCountUpdated(false), 400);
     
     try {
-      await axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
+      await axios.put("/posts/like/" + post._id , { userId: currentUser._id });
     } catch (err) {
       // Revert optimistic update on error
       setLike(like);

@@ -197,8 +197,6 @@ export const getTimelinePosts = async (req, res) => {
       .skip(skip)
       .limit(limit);
 
-    console.log({ posts }, "shajhsjhasjhajshjahsjhasjhaj");
-
     return res.status(200).json({
       message: "Timeline posts fetched successfully",
       posts,

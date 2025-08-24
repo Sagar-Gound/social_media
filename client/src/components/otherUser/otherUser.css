@@ -112,7 +112,8 @@
 
 .followButton.notFollowing:hover {
   background-color: #0d5cb5;
-  transform: translateY(-50%) scale(1.1);
+  transform: scale(1.1);
+  transform-origin: center;
 }
 
 .followButton.following {
@@ -122,7 +123,8 @@
 
 .followButton.following:hover {
   background-color: #c82333;
-  transform: translateY(-50%) scale(1.1);
+  transform: scale(1.1);
+  transform-origin: center;
 }
 
 .followButton.success {

@@ -312,15 +312,15 @@ export default function Share({ onNewPost }) {
                   style={{ display: "none" }}
                   type="file"
                   id="file"
-                  accept="image/*,video/*"
+                  accept="image/*"
                   onChange={(e) => handleFileChange(e.target.files[0])}
                 />
               </label>
 
-              <div className="shareOption">
+              {/* <div className="shareOption" disabled role="button">
                 <VideoCall className="shareIcon" sx={{ color: "#e74c3c" }} />
                 <span className="shareOptionText">Video</span>
-              </div>
+              </div> */}
 
               <div
                 className="shareOption"
@@ -330,20 +330,20 @@ export default function Share({ onNewPost }) {
                 <span className="shareOptionText">Feeling</span>
               </div>
 
-              <div className="shareOption">
+              {/* <div className="shareOption" disabled role="button">
                 <RoomOutlined className="shareIcon" sx={{ color: "#27ae60" }} />
                 <span className="shareOptionText">Location</span>
-              </div>
+              </div> */}
 
-              <div className="shareOption">
+              {/* <div className="shareOption" disabled role="button">
                 <GifBox className="shareIcon" sx={{ color: "#9b59b6" }} />
                 <span className="shareOptionText">GIF</span>
-              </div>
+              </div> */}
 
-              <div className="shareOption">
+              {/* <div className="shareOption" disabled role="button">
                 <Poll className="shareIcon" sx={{ color: "#3498db" }} />
                 <span className="shareOptionText">Poll</span>
-              </div>
+              </div> */}
             </div>
 
             <button

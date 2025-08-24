@@ -3,7 +3,7 @@ import axios from "./config/axiosConfig";
 export const loginCall = async (userCredential, dispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
-    const res = await axios.post("/auth/login", userCredential);    
+    const res = await axios.post("/auth/login", userCredential);
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.filteredUserInfo });
     // Store user in localStorage for persistence
     localStorage.setItem("user", JSON.stringify(res.data.filteredUserInfo));
@@ -12,12 +12,11 @@ export const loginCall = async (userCredential, dispatch) => {
   }
 };
 
-export const logoutCall = (dispatch) => {
+export const logoutCall = async (dispatch) => {
   try {
     dispatch({ type: "LOGOUT" });
     localStorage.removeItem("user");
-    // Clear any other stored data if needed
-    localStorage.removeItem("authToken");
+    await axios.post("/auth/logout");
     return true;
   } catch (error) {
     console.error("Logout error:", error);
@@ -65,9 +64,9 @@ export const getAllFriends = async (userId) => {
     return { success: true, data: response.data };
   } catch (error) {
     console.error("Error fetching friends:", error);
-    return { 
-      success: false, 
-      error: error.response?.data?.message || "Failed to fetch friends" 
+    return {
+      success: false,
+      error: error.response?.data?.message || "Failed to fetch friends"
     };
   }
 };

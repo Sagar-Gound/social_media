@@ -11,6 +11,7 @@ import {
   getAllFriends,
   searchUser,
 } from "../controller/user.controller.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 
 export const userRoute = Router();
 
@@ -30,10 +31,10 @@ userRoute.put("/:id", checkObjectId, updateUser);
 userRoute.delete("/:id", checkObjectId, deleteUser);
 
 // follow a user
-userRoute.put("/:id/follow", checkObjectId, followUser);
+userRoute.put("/:id/follow", verifyToken, checkObjectId, followUser);
 
 // unfollow a user
-userRoute.put("/:id/unfollow", checkObjectId, unfollowUser);
+userRoute.put("/:id/unfollow", verifyToken, checkObjectId, unfollowUser);
 
 // get friend's data
 userRoute.get("/friends/:id", checkObjectId, friendDetails)
