@@ -8,9 +8,9 @@ import cors from "cors"
 // import Routes
 import { authRoute, userRoute, postRoute, uploadRoute } from "./routes/index.js";
 
-const PORT = process.env.PORT || 4000;
-
 dotenv.config();
+
+const PORT = process.env.PORT || 4000;
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log("Connected to MongoDB");
