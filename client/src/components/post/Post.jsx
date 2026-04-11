@@ -9,6 +9,8 @@ import { AuthContext } from "./../../context/AuthContext";
 import ConfirmModal from "../confirmModal/ConfirmModal";
 import Toast from "../toast/Toast";
 
+const API_ORIGIN = process.env.REACT_APP_API_URL || "http://localhost:4000";
+
 export default function Post({ post, onDeletePost }) {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
@@ -59,21 +61,21 @@ export default function Post({ post, onDeletePost }) {
 
   const likeHandler = async () => {
     if (likingInProgress) return;
-    
+
     setLikingInProgress(true);
     const newLikedState = !isLiked;
     const newLikeCount = newLikedState ? like + 1 : like - 1;
-    
+
     // Optimistic update
     setLike(newLikeCount);
     setIsLiked(newLikedState);
     setLikeCountUpdated(true);
-    
+
     // Reset animation class after animation completes
     setTimeout(() => setLikeCountUpdated(false), 400);
-    
+
     try {
-      await axios.put("/posts/like/" + post._id , { userId: currentUser._id });
+      await axios.put("/posts/like/" + post._id, { userId: currentUser._id });
     } catch (err) {
       // Revert optimistic update on error
       setLike(like);
@@ -87,26 +89,26 @@ export default function Post({ post, onDeletePost }) {
   const deleteHandler = async () => {
     setIsDeleting(true);
     setShowDropdown(false);
-    
+
     try {
       await axios.delete(`/posts/${post._id}`, {
         data: { userId: currentUser._id }
       });
-      
+
       // Show success toast
       setToastConfig({
         isVisible: true,
         message: 'Post deleted successfully!',
         type: 'success'
       });
-      
+
       // Call the callback to remove the post from the parent component
       if (onDeletePost) {
         setTimeout(() => {
           onDeletePost(post._id);
         }, 300); // Small delay for animation
       }
-      
+
     } catch (error) {
       console.error("Error deleting post:", error);
       setToastConfig({
@@ -183,13 +185,13 @@ export default function Post({ post, onDeletePost }) {
           <div className="postTopRight">
             {currentUser._id === post.userId && (
               <div className="postOptionsWrapper">
-                <MoreVertOutlined 
+                <MoreVertOutlined
                   className="postOptionsIcon"
                   onClick={() => setShowDropdown(!showDropdown)}
                 />
                 {showDropdown && (
                   <div className="postDropdown">
-                    <div 
+                    <div
                       className={`postDropdownItem delete ${isDeleting ? 'disabled' : ''}`}
                       onClick={handleDeleteClick}
                     >
@@ -207,12 +209,11 @@ export default function Post({ post, onDeletePost }) {
           {post.img && (
             <>
               {imageLoading && <div className="imageLoading"></div>}
-              <img 
-                className="postImg" 
-                src={post.img.startsWith('http') 
-                  ? post.img 
-                  : `${process.env.REACT_APP_API_URL || 'http://localhost:4000'}/images/posts/${post.img}`
-                } 
+              <img
+                className="postImg"
+                src={post.img.startsWith('http')
+                  ? post.img
+                  : `${API_ORIGIN}/images/posts/${post.img}`}
                 alt=""
                 onLoad={() => setImageLoading(false)}
                 onError={() => setImageLoading(false)}
@@ -240,7 +241,7 @@ export default function Post({ post, onDeletePost }) {
           </div>
         </div>
       </div>
-      
+
       {/* Confirmation Modal */}
       <ConfirmModal
         isOpen={showConfirmModal}
@@ -250,7 +251,7 @@ export default function Post({ post, onDeletePost }) {
         message="Are you sure you want to delete this post? This action cannot be undone."
         loading={isDeleting}
       />
-      
+
       {/* Toast Notification */}
       <Toast
         message={toastConfig.message}
