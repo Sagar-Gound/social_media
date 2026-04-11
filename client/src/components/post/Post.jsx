@@ -9,7 +9,7 @@ import { AuthContext } from "./../../context/AuthContext";
 import ConfirmModal from "../confirmModal/ConfirmModal";
 import Toast from "../toast/Toast";
 
-const API_ORIGIN = process.env.REACT_APP_API_URL || "http://localhost:4000";
+const API_ORIGIN = process.env.REACT_APP_API_URL;
 
 export default function Post({ post, onDeletePost }) {
   const [like, setLike] = useState(post.likes.length);
