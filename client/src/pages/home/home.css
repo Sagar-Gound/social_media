@@ -1,3 +1,21 @@
-.homeContainer{
-    display: flex;width: 100%;
+.homeContainer {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+}
+
+@media (max-width: 1024px) {
+    .homeContainer {
+        gap: 0;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .homeContainer {
+        display: block;
+        padding: 10px 8px;
+    }
 }

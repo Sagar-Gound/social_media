@@ -1,5 +1,5 @@
 .topbarContainer {
-    height: 50px;
+    min-height: var(--topbar-height);
     width: 100%;
     background-color: #383e39;
     display: flex;
@@ -7,6 +7,7 @@
     position: sticky;
     top: 0;
     z-index: 999;
+    padding: 0 10px;
 }
 
 .topbarLeft {
@@ -15,7 +16,7 @@
 
 .logo {
     font-size: 20px;
-    margin-left: 27px;
+    margin-left: 17px;
     font-weight: 500;
     color: white;
     cursor: pointer;
@@ -28,7 +29,7 @@
 .searchbar {
     width: 100%;
     height: 30px;
-    background-color: white;
+    background-color: var(--color-surface);
     border-radius: 25px;
     display: flex;
     align-items: center;
@@ -116,4 +117,61 @@
     object-position: top;
     border-radius: 50%;
     margin-right: 18px;
+}
+
+@media (max-width: 1024px) {
+    .topbarLinks {
+        display: none;
+    }
+
+    .topbarRight {
+        justify-content: flex-end;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .topbarContainer {
+        flex-wrap: wrap;
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    .topbarLeft {
+        flex: 1;
+        min-width: 100px;
+    }
+
+    .logo {
+        margin-left: 0;
+        font-size: 18px;
+    }
+
+    .topbarCenter {
+        order: 3;
+        flex: 1 1 100%;
+    }
+
+    .searchbar {
+        height: 36px;
+    }
+
+    .topbarRight {
+        flex: 0;
+        gap: 6px;
+    }
+
+    .topbarIcons {
+        margin-top: 0;
+    }
+
+    .topbarIconItem {
+        margin-right: 8px;
+    }
+
+    .topbarImage {
+        margin-right: 0;
+        width: 32px;
+        height: 32px;
+    }
 }

@@ -14,7 +14,7 @@ import {
 } from "@mui/icons-material";
 import { useContext } from "react";
 import { AuthContext } from "./../../context/AuthContext";
-import axios from "axios";
+import axios from "../../config/axiosConfig.js";
 import EmojiPicker from 'emoji-picker-react';
 
 export default function Share({ onNewPost }) {

@@ -1,5 +1,5 @@
 import "./conversation.css";
-import axios from "axios";
+import axios from "../../config/axiosConfig.js";
 import { useState, useEffect } from "react";
 
 export default function Conversation({ conversation, currentUser }) {

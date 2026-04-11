@@ -1,12 +1,13 @@
 .register {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .registerWrapper {
@@ -247,10 +248,15 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .register {
+        padding: 12px;
+    }
+
     .registerWrapper {
         flex-direction: column;
-        width: 95%;
+        width: 100%;
         min-height: auto;
+        border-radius: 14px;
     }
     
     .registerLeft {
@@ -270,7 +276,7 @@
     }
     
     .registerRight {
-        padding: 30px 20px;
+        padding: 22px 14px;
     }
     
     .registerTitle {

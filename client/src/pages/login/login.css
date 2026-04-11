@@ -1,12 +1,13 @@
 .login {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .loginWrapper {
@@ -240,10 +241,15 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .login {
+        padding: 12px;
+    }
+
     .loginWrapper {
         flex-direction: column;
-        width: 95%;
+        width: 100%;
         min-height: auto;
+        border-radius: 14px;
     }
     
     .loginLeft {
@@ -259,7 +265,7 @@
     }
     
     .loginRight {
-        padding: 30px 20px;
+        padding: 22px 14px;
     }
     
     .loginTitle {

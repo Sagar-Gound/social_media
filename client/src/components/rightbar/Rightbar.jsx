@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./rightbar.css";
 import { Users } from "../../dummyData";
 import Online from "../online/Online";
-import axios from "axios";
+import axios from "../../config/axiosConfig.js";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";

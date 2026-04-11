@@ -4,7 +4,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 // import Rightbar from "./../../components/rightbar/Rightbar";
 import Feed from "../../components/feed/Feed";
 import "./profile.css";
-import axios from "axios";
+import axios from "../../config/axiosConfig.js";
 import { useParams } from "react-router";
 import Rightbar from "../../components/rightbar/Rightbar";
 

@@ -1,6 +1,6 @@
 import { MoreVertOutlined, DeleteOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../../config/axiosConfig.js";
 import React, { useContext, useEffect, useState } from "react";
 import { format } from "timeago.js";
 import _ from "lodash";
@@ -9,7 +9,7 @@ import { AuthContext } from "./../../context/AuthContext";
 import ConfirmModal from "../confirmModal/ConfirmModal";
 import Toast from "../toast/Toast";
 
-const API_ORIGIN = process.env.REACT_APP_API_URL;
+const API_ORIGIN = process.env.REACT_APP_API_URL || "http://localhost:4000";
 
 export default function Post({ post, onDeletePost }) {
   const [like, setLike] = useState(post.likes.length);

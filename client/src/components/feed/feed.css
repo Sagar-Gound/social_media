@@ -1,5 +1,6 @@
 .feed{
     flex: 5.5;
+    min-width: 0;
 }
 
 .feedWrapper{
@@ -181,7 +182,17 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .feedWrapper {
-        padding: 15px;
+        padding: 12px 6px;
+    }
+
+    .feedHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .refreshButton {
+        width: 100%;
     }
     
     .emptyFeedContent h3 {

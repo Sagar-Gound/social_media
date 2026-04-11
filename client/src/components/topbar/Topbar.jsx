@@ -10,10 +10,10 @@ export default function Topbar() {
   const navigate = useNavigate();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
-      const success = logoutCall(dispatch);
+      const success = await logoutCall(dispatch);
       if (success) {
         // Use replace to prevent going back to authenticated pages
         navigate("/login", { replace: true });

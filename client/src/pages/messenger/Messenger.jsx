@@ -5,7 +5,7 @@ import "./messenger.css";
 import ChatOnline from "./../../components/chatOnline/ChatOnline";
 import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "./../../context/AuthContext";
-import axios from "axios";
+import axios from "../../config/axiosConfig.js";
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);

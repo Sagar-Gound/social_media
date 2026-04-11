@@ -1,9 +1,14 @@
 .profile {
     display: flex;
+    width: 100%;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
 }
 
 .profileRight {
     flex: 9;
+    min-width: 0;
 }
 
 .profileCover {
@@ -43,4 +48,48 @@
 
 .profileRightBottom {
     display: flex;
+    gap: 12px;
+}
+
+@media (max-width: 1024px) {
+    .profile {
+        gap: 0;
+        padding: 10px;
+    }
+
+    .profileRightBottom {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile {
+        display: block;
+        padding: 10px 8px;
+    }
+
+    .profileCover {
+        height: 260px;
+    }
+
+    .profileCoverImg {
+        height: 180px;
+        border-radius: var(--radius-sm);
+    }
+
+    .profileUserImg {
+        width: 100px;
+        height: 100px;
+        top: 128px;
+    }
+
+    .profileInfoName {
+        font-size: 20px;
+        margin-top: 8px;
+    }
+
+    .profileInfoDesc {
+        text-align: center;
+        padding: 0 12px;
+    }
 }
