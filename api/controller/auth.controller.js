@@ -2,6 +2,15 @@ import { User } from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const getCookieOptions = () => ({
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
+  maxAge: 60 * 60 * 1000,
+});
+
 export const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -91,12 +100,7 @@ export const loginUser = async (req, res) => {
         expiresIn: '1h'
       });
 
-      res.cookie("authToken", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict",
-        maxAge: 60 * 60 * 1000 // 1 hour same as JWT token expiration
-      });
+      res.cookie("authToken", token, getCookieOptions());
 
       return res.status(200).json({
         message: "User logged in successfully",
@@ -113,10 +117,11 @@ export const loginUser = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
   try {
+    const cookieOptions = getCookieOptions();
     res.clearCookie("authToken", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
+      httpOnly: cookieOptions.httpOnly,
+      secure: cookieOptions.secure,
+      sameSite: cookieOptions.sameSite,
     });
     return res.status(200).json({
       message: "User logged out successfully",

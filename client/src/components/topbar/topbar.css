@@ -66,14 +66,20 @@
 
 .topbarIcons {
     display: flex;
+    align-items: center;
     margin-top: 7px;
 }
 
 .topbarIconItem {
-    margin-right: 15px;
     cursor: pointer;
+    margin-right: 15px;
     position: relative;
-    transition: all 0.3s ease;
+    transition: all .3s ease;
+    min-width: 30px;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .topbarIconItem:hover {
